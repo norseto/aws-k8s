@@ -1,0 +1,55 @@
+// For format details, see https://aka.ms/vscode-remote/devcontainer.json or the definition README at
+// https://github.com/microsoft/vscode-dev-containers/tree/master/containers/go
+{
+	"name": "Kubernetes",
+	"build": {
+		"dockerfile": "Dockerfile",
+		// Update 'VARIANT' to pick an Debian version: bullseye, buster
+		// Use bullseye on local arm64/Apple Silicon.
+		"args": { "VARIANT": "bullseye" }
+	},
+
+    // "runArgs": [
+    //     // Uncomment the next line to use a non-root user. On Linux, this will prevent
+    //     // new files getting created as root, but you may need to update the USER_UID
+    //     // and USER_GID in .devcontainer/Dockerfile to match your user if not 1000.
+    //     // "-u", "vscode",
+    //     "--cap-add=SYS_PTRACE",
+    //     "--security-opt",
+    //     "seccomp=unconfined",
+    //     "-v",
+    //     "/var/run/docker.sock:/var/run/docker.sock",
+    //     "--add-host=host.docker.internal:host-gateway"
+    // ],
+
+    // Use 'settings' to set *default* container specific settings.json values on container create. 
+    // You can edit these settings after create using File > Preferences > Settings > Remote.
+    "settings": {
+    },
+
+    "remoteUser": "vscode",
+    "extensions": [
+        "ms-azuretools.vscode-docker",
+        "editorconfig.editorconfig",
+        "ms-kubernetes-tools.vscode-kubernetes-tools",
+    ],
+    "remoteEnv": {
+        "CONTAINER_WORKSPACE_FOLDER": "${containerWorkspaceFolder}",
+        "LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}"
+    },
+    "mounts": [
+        "source=${localWorkspaceFolder}/.devcontainer/extensions,target=/root/.vscode-server/extensions,type=bind,consistency=cached",
+        "source=${localWorkspaceFolder}/.devcontainer/credentials/aws,target=/root/.aws,type=bind,consistency=cached",
+        "source=${localWorkspaceFolder}/.devcontainer/credentials/k8s,target=/root/.kube,type=bind,consistency=cached"
+    ],
+    "features": {
+        "docker-from-docker": {},
+        "kubectl-helm-minikube": {},
+        "norseto/vsc-feature/kubernetes": {
+            "skaffold": "v1.35.0",
+            "istioctl": "latest"
+        },
+        "norseto/vsc-feature/python-pip3": {},
+        "norseto/vsc-feature/awscli": {},
+    }
+}
